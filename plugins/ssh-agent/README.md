@@ -33,6 +33,13 @@ The lifetime may be specified in seconds or as described in sshd_config(5)
 zstyle :omz:plugins:ssh-agent lifetime 4h
 ```
 
+To set an **external helper** to ask for the passwords and possibly store 
+them in the system keychain use the `helper` style. For example:
+
+```zsh
+zstyle :omz:plugins:ssh-agent helper ksshaskpass
+```
+
 ## Credits
 
 Based on code from Joseph M. Reagle: https://www.cygwin.com/ml/cygwin/2001-06/msg00537.html

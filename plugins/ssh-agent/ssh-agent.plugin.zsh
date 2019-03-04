@@ -46,7 +46,19 @@ function _add_identities() {
 		fi
 	done
 
-	[[ -n "$not_loaded" ]] && ssh-add ${^not_loaded}
+	# use user specified helper to ask for password (ksshaskpass, etc)
+	zstyle -s :omz:plugins:ssh-agent helper helper
+	in_from='/dev/stdin'
+	if [ ! -z "$helper" ]; then
+		if [ -z `command -v "$helper"` ]; then
+			echo "ssh-agent: the helper '$helper' has not been found."
+		else
+			export SSH_ASKPASS="$helper"
+			in_from='/dev/null'
+		fi
+	fi
+
+	[[ -n "$not_loaded" ]] && ssh-add ${^not_loaded} < "$in_from"
 }
 
 # Get the filename to store/lookup the environment from
